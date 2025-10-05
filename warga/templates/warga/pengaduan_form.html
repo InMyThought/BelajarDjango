@@ -9,6 +9,7 @@
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Simpan</button>
+        <button><a href="{% url 'pengaduan-list' %}">Kembali ke Daftar Pengaduan Warga</a><button>
     </form>
 </body>
 </html>
