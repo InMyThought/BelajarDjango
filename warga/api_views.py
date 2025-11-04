@@ -1,7 +1,17 @@
 from rest_framework import generics
-from .models import Pengaduan
-from .serializers import PengaduanSerializer
+from .models import Pengaduan, Warga
+from .serializers import PengaduanSerializer, WargaSerializer
 
+
+
+class WargaListAPIView(generics.ListAPIView):
+    queryset = Warga.objects.all()
+    serializer_class = WargaSerializer
+    
+    
+class WargaDetailAPIView(generics.RetrieveAPIView):
+    queryset = Warga.objects.all()
+    serializer_class = WargaSerializer
 # View ini menangani dua hal:
 # 1. GET: Mendapatkan DAFTAR semua pengaduan (List)
 # 2. POST: Membuat pengaduan BARU (Create)
