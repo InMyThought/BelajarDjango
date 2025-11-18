@@ -1,30 +1,27 @@
-from rest_framework import generics
+# Impor viewsets, bukan lagi generics
+from rest_framework import viewsets 
 from .models import Pengaduan, Warga
-from .serializers import PengaduanSerializer, WargaSerializer
+# Serializer Anda sudah siap
+from .serializers import PengaduanSerializer, WargaSerializer 
 
-
-
-class WargaListAPIView(generics.ListAPIView):
-    queryset = Warga.objects.all()
+# 1. PRAKTIKUM: ViewSet untuk Warga
+# Class ini menggantikan WargaListAPIView dan WargaDetailAPIView
+class WargaViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows 'warga' to be viewed or edited.
+    Secara otomatis menyediakan aksi .list(), .retrieve(), .create(), 
+    .update(), .partial_update(), dan .destroy()
+    """
+    # Ambil semua objek Warga, urutkan berdasarkan tanggal registrasi terbaru
+    queryset = Warga.objects.all().order_by('-tanggal_registrasi')
     serializer_class = WargaSerializer
-    
-    
-class WargaDetailAPIView(generics.RetrieveAPIView):
-    queryset = Warga.objects.all()
-    serializer_class = WargaSerializer
-# View ini menangani dua hal:
-# 1. GET: Mendapatkan DAFTAR semua pengaduan (List)
-# 2. POST: Membuat pengaduan BARU (Create)
-# Ini sesuai dengan metode HTTP 'GET' dan 'POST'
-class PengaduanListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Pengaduan.objects.all()
-    serializer_class = PengaduanSerializer
 
-# View ini menangani tiga hal untuk SATU item spesifik (berdasarkan 'pk'):
-# 1. GET: Mendapatkan DETAIL satu pengaduan (Retrieve)
-# 2. PUT/PATCH: Memperbarui satu pengaduan (Update)
-# 3. DELETE: Menghapus satu pengaduan (Destroy)
-# Ini sesuai dengan metode HTTP 'GET', 'PUT', 'PATCH', dan 'DELETE'
-class PengaduanDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+
+# 2. CHALLENGE: ViewSet untuk Pengaduan
+# Class ini menggantikan PengaduanListCreateAPIView dan PengaduanDetailAPIView
+class PengaduanViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows 'pengaduan' to be viewed or edited.
+    """
     queryset = Pengaduan.objects.all()
     serializer_class = PengaduanSerializer
