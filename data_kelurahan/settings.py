@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "warga",
     "rest_framework",
     "rest_framework.authtoken",
+    "django_filters",
 ]
 
 MIDDLEWARE = [
@@ -126,9 +127,14 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # TAMBAHKAN INI DI BAGIAN PALING BAWAH FILE
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-    ],
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10, # Jumlah item per halaman
+    'DEFAULT_RENDERER_PERMISSION': (
+        'rest_framework.renderers.JSONRenderer',
+    ),
 }
